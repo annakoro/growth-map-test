@@ -2,30 +2,32 @@
 
 ## 1. Какие таблицы нужны?
 
-### `modules` - список обучающих модулей
+### `modules` — список обучающих модулей
 
-Хранит структуру курса и порядок модулей.
-
-id (PK) int
-title text
-order_index int
-
----
-
-### `users` - пользователи
-
-id (PK) uuid
+| Column      | Type | Description                     |
+| ----------- | ---- | ------------------------------- |
+| id (PK)     | int  | Уникальный идентификатор модуля |
+| title       | text | Название модуля                 |
+| order_index | int  | Порядок отображения модулей     |
 
 ---
 
-### `user_module_progress` - прогресс пользователя
+### `users` — пользователи (из Supabase Auth)
 
-Хранит факт прохождения определённого модуля пользователем.
+| Column  | Type | Description                           |
+| ------- | ---- | ------------------------------------- |
+| id (PK) | uuid | Уникальный идентификатор пользователя |
 
-user_id (PK, FK users.id)
-module_id (PK, FK modules.id)
-is_completed boolean
-completed_at Time
+---
+
+### `user_module_progress` — прогресс пользователя
+
+| Column       | Type    | Description                                |
+| ------------ | ------- | ------------------------------------------ |
+| user_id      | uuid    | Идентификатор пользователя (FK → users.id) |
+| module_id    | int     | Идентификатор модуля (FK → modules.id)     |
+| is_completed | boolean | Пройден ли модуль                          |
+| completed_at | Time    | Дата и время завершения (nullable)         |
 
 ---
 
