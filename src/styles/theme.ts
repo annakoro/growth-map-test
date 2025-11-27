@@ -165,14 +165,3 @@ export const ANIMATIONS = {
     disabled: 0.5,
   },
 } as const;
-
-/**
- * Accessibility constants
- */
-export const ACCESSIBILITY = {
-  minimumTouchTarget: LAYOUT.touchTarget.minimum,
-  colorContrast: {
-    normal: 4.5, // WCAG AA standard
-    large: 3.0, // WCAG AA for large text
-  },
-} as const;

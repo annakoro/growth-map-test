@@ -1,6 +1,8 @@
-import { View, FlatList, StyleSheet } from "react-native";
+import { useCallback } from "react";
+import { View, StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { ModuleItem } from "./ModuleItem";
+import { FlashList, ListRenderItem } from "@shopify/flash-list";
+import { ModuleItem } from "../components/ModuleItem";
 import { LessonModule, GrowthMapProps } from "../types/LessonModule";
 import { LESSON_MODULES } from "../data/modules";
 import { SPACING, COLORS } from "../styles/theme";
@@ -11,24 +13,25 @@ export const GrowthMapScreen = ({
 }: GrowthMapProps) => {
   const { handleModulePress } = useModuleActions();
 
-  const renderModuleItem = ({ item }: { item: LessonModule }) => (
-    <ModuleItem module={item} onPress={handleModulePress} />
+  const renderModuleItem: ListRenderItem<LessonModule> = useCallback(
+    ({ item }) => <ModuleItem module={item} onPress={handleModulePress} />,
+    [handleModulePress]
   );
 
-  const keyExtractor = (item: LessonModule) => item.id.toString();
+  const keyExtractor = useCallback(
+    (item: LessonModule) => item.id.toString(),
+    []
+  );
 
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.content}>
-        <FlatList
+        <FlashList
           data={modules}
           renderItem={renderModuleItem}
           keyExtractor={keyExtractor}
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
-          removeClippedSubviews={true}
-          maxToRenderPerBatch={10}
-          windowSize={10}
         />
       </View>
     </SafeAreaView>
