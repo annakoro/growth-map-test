@@ -1,4 +1,4 @@
-import { useCallback } from "react";
+import { useCallback, useMemo } from "react";
 import { Alert } from "react-native";
 import { LessonModule, ModuleStatus } from "../types/LessonModule";
 
@@ -28,11 +28,14 @@ export const useModuleActions = () => {
     console.log("Lesson already completed");
   }, []);
 
-  const actionHandlers: ModuleActionHandlers = {
-    [ModuleStatus.ACTIVE]: handleActiveModule,
-    [ModuleStatus.LOCKED]: handleLockedModule,
-    [ModuleStatus.DONE]: handleDoneModule,
-  };
+  const actionHandlers = useMemo<ModuleActionHandlers>(
+    () => ({
+      [ModuleStatus.ACTIVE]: handleActiveModule,
+      [ModuleStatus.LOCKED]: handleLockedModule,
+      [ModuleStatus.DONE]: handleDoneModule,
+    }),
+    [handleActiveModule, handleLockedModule, handleDoneModule]
+  );
 
   const handleModulePress = useCallback(
     (module: LessonModule) => {
